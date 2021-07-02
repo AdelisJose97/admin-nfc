@@ -24,6 +24,7 @@ const onEditService = async (service) => {
       }
     })
     console.log(resp)
+    return resp
 
   } catch (error) {
     console.log(error)

@@ -45,7 +45,6 @@ const Login = () => {
       const response = await LoginService(user)
       if (response.status === 200) {
         const { data } = response
-        console.log(data);
         localStorage.setItem("adminToken", data.token)
         localStorage.setItem("adminUsername", data.username)
         dispatch({
@@ -74,11 +73,12 @@ const Login = () => {
         <div className="section-middler-container">
           <Form onSubmit={handleSubmit}>
             <div className="section-middler-container-text-area">
-              <div style={{ width: '20%' }}>
+              <div style={{ width: '20%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img style={{ width: '25px' }} src={InboxIcon} alt="" />
               </div>
               <div style={{ width: '80%' }}>
                 <Form.Control
+                  style={{ color: 'black' }}
                   className="form-check"
                   name="username" type="text"
                   placeholder="Ingrese usuario"
@@ -87,11 +87,12 @@ const Login = () => {
               </div>
             </div>
             <div className="section-middler-container-text-area">
-              <div style={{ width: '20%' }}>
+              <div style={{ width: '20%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img style={{ width: '25px' }} src={LockIcon} alt="" />
               </div>
               <div style={{ width: '80%' }}>
                 <Form.Control
+                  style={{ color: 'black' }}
                   className="form-check"
                   name="password"
                   type="password"

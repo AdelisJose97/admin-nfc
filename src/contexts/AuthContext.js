@@ -6,7 +6,8 @@ import useIsLogin from 'hooks/useIsLogin'
 
 const initialValues = {
   userActual: {},
-  services: []
+  services: [],
+  showLoading: false
 }
 
 export const AuthContext = createContext(initialValues)
@@ -20,6 +21,65 @@ const reducer = (state, action) => {
       return { ...state, services: state.services.concat(action.payload) }
     case "DELETE_SERVICE":
       return { ...state, services: state.services.filter(service => service._id !== action.payload) }
+    case "EDIT_SERVICE":
+      return {
+        ...state, services: state.services.map(service => {
+          if (service._id === action.payload._id) {
+            service.name = action.payload.name
+            service.start_end = action.payload.start_end
+          }
+          return service
+        })
+      }
+    case "ADD_CATEGORY":
+      return {
+        ...state, services: state.services.map(service => {
+          if (service._id === action.payload.serviceId) {
+            service.categories = [...service.categories, action.payload.category]
+          }
+          return service
+        })
+      }
+    case "DELETE_CATEGORY":
+      return {
+        ...state, services: state.services.map(service => {
+          if (service._id === action.payload.serviceId) {
+            service.categories = service.categories.filter(category => category._id !== action.payload._id)
+          }
+          return service
+        })
+      }
+    case "EDIT_CATEGORY":
+      return {
+        ...state, services: state.services.map(service => {
+          if (service._id === action.payload.serviceId) {
+            service.categories = service.categories.map(category => {
+              if (category._id === action.payload._id) {
+                const { serviceId, ...newCategory } = action.payload
+                category = { ...newCategory }
+              }
+              return category
+            })
+          }
+          return service
+        })
+      }
+    case "ADD_DISH":
+      return {
+        ...state, services: state.services.map(service => {
+          if (service._id === action.payload.serviceId) {
+            service.categories = service.categories.map(category => {
+              if (category._id === action.payload.categoryId) {
+                category.dishes = [...category.dishes, action.payload]
+              }
+              return category
+            })
+          }
+          return service
+        })
+      }
+    case "SET_SHOW_LOADING":
+      return { ...state, showLoading: action.payload }
     default:
       return state;
   }
@@ -42,70 +102,3 @@ const AuthContextProvider = ({ children }) => {
 }
 
 export default AuthContextProvider
-
-/* export const ContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialValues)
-  const { userActual } = state;
-  useEffect(() => {
-    getAllUsers()
-      .then(result => {
-        console.log(result);
-        if (result) {
-          dispatch({
-            type: "SET_ALL_USERS",
-            payload: result
-          })
-          dispatch({
-            type: "SET_SHOW_DIALOG",
-            payload: false
-          })
-
-        }
-      })
-    getTopRanking()
-      .then(result => {
-        dispatch({
-          type: "SET_TOP_RANKING_USERS",
-          payload: result
-        })
-        dispatch({
-          type: "SET_SHOW_DIALOG",
-          payload: false
-        })
-      })
-
-    return () => {
-
-    }
-  }, [userActual])
-  return (
-    <Context.Provider value={{ ...state, dispatch }}>
-      {children}
-    </Context.Provider>
-  )
-}
-
- */
-
-/* const reducer = (state, action) => {
- switch (action.type) {
-   case "SET_ACTUAL_USER":
-     return { ...state, userActual: action.payload }
-   case "SET_ALL_USERS":
-     return { ...state, allUsers: action.payload };
-   case "SET_TOP_RANKING_USERS":
-     return { ...state, TopRankingUsers: action.payload }
-   case "DELETE_USER":
-     return { ...state, allUsers: { ...state.allUsers, docs: state.allUsers.docs.filter(item => item._id != action.payload) } }
-   case "SET_WITHDRAWAL_HISTORY":
-     return { ...state, withdrawalHistory: action.payload }
-   case "GET_RECENT_USERS":
-     return { ...state, RecentUsers: action.payload }
-   case "GET_REVENUE_DAY":
-     return { ...state, RevenueDay: action.payload }
-   case "SET_SHOW_DIALOG":
-     return { ...state, showLoading: action.payload }
-   default:
-     return state;
- }
-} */

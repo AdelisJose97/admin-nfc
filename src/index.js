@@ -24,14 +24,15 @@ import AdminLayout from "layouts/Admin/Admin.js";
 import LoginLayout from "layouts/Login/Login.js"
 import PrivateRoute from 'components/PrivateRoute/PrivateRoute.js'
 
-import "assets/scss/black-dashboard-react.scss";
+import 'antd/dist/antd.css';
 import "assets/demo/demo.css";
 import "assets/css/nucleo-icons.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import "assets/scss/black-dashboard-react.scss";
+/* import "assets/css/black-dashboard-react.css"; */
 
-import 'antd/dist/antd.css';
 
 import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
 import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
